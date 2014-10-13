@@ -1,6 +1,24 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup 
 import re
 import csv
+import google
+#Will need to pip install google and BeautifulSoup to run
+
+#This is the google material to be used with BeautifulSoup
+#It does take a while to run, if you need to do extensive testing
+#I would recommend commenting it out.
+
+print "Loading Google Data..."
+gDataGen=google.search("Andrew Garfield",stop=25) #This is a generator for the first 25 links of the google search "Andrew Garfield"
+gData=[] #List of all the links
+for link in gDataGen: #This step takes a while (Mr.Z said this is normal)
+    gData.append(google.get_page(link))
+#This creates a list of all the data from each of the first 25 links. If you want more results, change 'stop=25' to a higher number
+#however this will make it load much slower due to the wait time for the url pages. To see what a result looks like, you can use the line below.
+
+#print gData[0]
+
+#End of google material
 
 data = open("aroundworldin80days.txt", 'r')
 text = data.read()
