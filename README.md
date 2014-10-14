@@ -3,8 +3,6 @@ GoogleSoulSearch
 
 Alex Zilbersher, Ziwei Ye, Sappha O'Meara, Tina Lee
 
-***FINDNAME DOES NOT WORK ANYMORE***
-
 To Do:
 Use Google to get the info webpage --Alex
 Use beautifulsoup to scrape the info webpage --Tina

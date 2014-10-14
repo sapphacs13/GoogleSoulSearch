@@ -43,13 +43,10 @@ def soupify(webtext):
 
 
 #Find name stuff
-def findName(data):
-    opened = open(data, 'r')
-    text = opened.read()
-    opened.close()
+def findName(text):
     #opened = open(data, 'r')
-    #text = data.read()
-    #data.close()
+    #text = opened.read()
+    #opened.close()
     dict_f = open("dictionary.txt",'r')
     dictionary =  dict_f.read()
     dict_f.close()
@@ -95,7 +92,7 @@ def findName(data):
     for row in csv_last: 
         last_names_list.append(row[0])
         
-        all_names_list = first_names_list + last_names_list
+    all_names_list = first_names_list + last_names_list
     
         
     for name in match_twoNames:
@@ -120,16 +117,9 @@ def findName(data):
             if first_name_l in dictionary: # first name isnt common and IS in dictionary
                 #names.remove(name)
                 to_add=False
-            elif first_name_l in dictionary and last_name_l in dictionary and (first_name not in first_names_list or last_name not in last_names_list): 
-                #names.remove(name)
-                to_add=False
-            elif first_name_l in dictionary and last_name_l in dictionary and (first_name not in first_names_list or last_name not in last_names_list): 
+        elif first_name_l in dictionary and last_name_l in dictionary and (first_name not in first_names_list or last_name not in last_names_list): 
                 #names.remove(name)
                 to_add = False
-            else: 
-                if to_add == True and names_final.count(name)<1: 
-                    names_final.append(name)
-                    to_add = False
         else: 
             if to_add == True and names_final.count(name)<1: 
                 names_final.append(name)
@@ -184,5 +174,4 @@ def findDate(fil):
     #print dates_final
 #print findDate(textnames)
 
-print most_common(masterlist)
 
