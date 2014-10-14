@@ -139,10 +139,10 @@ def findName(data):
         #   if names_final.count(name)<1: 
         #      names_final.append(name)
         #
-        return names_final
+    return names_final
 
     
-print findName("textnames")
+#print findName("textnames")
 #print findName("aroundtheworldin80days.txt")
 
 #print findName(soupify(gData[0]))
@@ -154,7 +154,7 @@ for text in gData:
     for each in findName(soupify(text)):
         masterlist.append(each)
 
-#print most_common(masterlist)
+print most_common(masterlist)
 
 #find time stuff
 def findDate(fil):
@@ -182,4 +182,7 @@ def findDate(fil):
             dates_final.append(date)
     return dates_final
     #print dates_final
-print findDate(textnames)
+#print findDate(textnames)
+
+print most_common(masterlist)
+
