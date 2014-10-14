@@ -42,16 +42,11 @@ def soupify(webtext):
 #End of BeautifulSoup stuff
 
 
-#data = open("aroundworldin80days.txt", 'r')
-#text = data.read()
-#data.close()
-
-
 #Find name stuff
 def findName(data):
     opened = open(data, 'r')
-    text = data.read()
-    data.close()
+    text = opened.read()
+    opened.close()
     dict_f = open("dictionary.txt",'r')
     dictionary =  dict_f.read()
     dict_f.close()
@@ -144,7 +139,7 @@ def findName(data):
         return names_final
 
     
-print findName("aroundtheworldin80days.txt")
+print findName("textnames")
 
 
 #print findName(soupify(gData[0]))
@@ -156,29 +151,32 @@ for text in gData:
     for each in findName(soupify(text)):
         masterlist.append(each)
 
-print most_common(masterlist)
+#print most_common(masterlist)
 
-
-months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-dates = []
-to_add = True
-dates_final = []
-
-for date in match_dates_md:
-    dates.append(date)
-for date in match_dates_mdy:
-    dates.append(date)
-dates.remove([])
-dates.remove([])
-for date in dates:
-    #print date
-    date_month = date[:date.find(' ')]
-    #print date_month
-    if date_month not in months:
-        to_add = False
-    if to_add == True:
-        dates_final.append(date)
-
-#print dates_final
-
-#print names_final
+#find time stuff
+def findDate(fil):
+    opened = open(fil, 'r')
+    text = fil.read()
+    opened.close()
+    months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    dates = []
+    to_add = True
+    dates_final = []
+    
+    for date in match_dates_md:
+        dates.append(date)
+    for date in match_dates_mdy:
+        dates.append(date)
+    dates.remove([])
+    dates.remove([])
+    for date in dates:
+        #print date
+        date_month = date[:date.find(' ')]
+        #print date_month
+        if date_month not in months:
+            to_add = False
+        if to_add == True:
+            dates_final.append(date)
+    return dates_final
+    #print dates_final
+print findDate(textnames)
