@@ -68,12 +68,8 @@ starting_words = ['But', 'On', 'From', 'Then', 'Down', 'To', 'A', 'An', 'The', '
 ##print match_twoNames
 ##print match_titles
 
-
-months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-
 names = []
 names_final= []
-dates = []
 csv_first = csv.reader(open("firstnames.csv","rU"),dialect=csv.excel_tab)
 #first_names_file = open("firstnames.csv")
 #csv_first = csv.reader(first_names_file) 
@@ -132,26 +128,6 @@ for name in names:
         if to_add == True and names_final.count(name)<1: 
             names_final.append(name)
             
-to_add = True
-dates_final = []
-for date in match_dates_md:
-    dates.append(date)
-for date in match_dates_mdy:
-    dates.append(date)
-dates.remove([])
-dates.remove([])
-for date in dates:
-    #print date
-    date_month = date[:date.find(' ')]
-    #print date_month
-    if date_month not in months:
-        to_add = False
-    if to_add == True:
-        dates_final.append(date)
-
-#print dates_final
-
-#print names_final
 to_add = False
 else: 
     if to_add == True and names_final.count(name)<1: 
@@ -174,3 +150,28 @@ for text in gData:
         masterlist.append(each)
 
 print most_common(masterlist)
+
+
+months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+dates = []
+to_add = True
+dates_final = []
+
+for date in match_dates_md:
+    dates.append(date)
+for date in match_dates_mdy:
+    dates.append(date)
+dates.remove([])
+dates.remove([])
+for date in dates:
+    #print date
+    date_month = date[:date.find(' ')]
+    #print date_month
+    if date_month not in months:
+        to_add = False
+    if to_add == True:
+        dates_final.append(date)
+
+#print dates_final
+
+#print names_final
