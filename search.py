@@ -9,7 +9,7 @@ import google
 #I would recommend commenting it out.
 
 print "Loading Google Data..."
-gDataGen=google.search("Andrew Garfield",stop=25) #This is a generator for the first 25 links of the google search "Andrew Garfield"
+gDataGen=google.search("Andrew Garfield",stop=10) #This is a generator for the first 25 links of the google search "Andrew Garfield"
 gData=[] #List of all the links
 for link in gDataGen: #This step takes a while (Mr.Z said this is normal)
     gData.append(google.get_page(link))
@@ -19,6 +19,20 @@ for link in gDataGen: #This step takes a while (Mr.Z said this is normal)
 #print gData[0]
 
 #End of google material
+
+
+#BeautifulSoup stuff
+
+soup = BeautifulSoup(gData[0])
+scraped = soup.get_text()
+
+print scraped.encode('utf-8')
+#temp = open("test2.txt",'w')
+#temp.write(scraped.encode('utf-8'))
+#temp.close()
+
+
+
 
 data = open("aroundworldin80days.txt", 'r')
 text = data.read()
@@ -89,4 +103,4 @@ for name in names:
 #for name in names: 
  #   if names_final.count(name)<1: 
   #      names_final.append(name)
-print names_final
+#print names_final
