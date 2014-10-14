@@ -9,7 +9,7 @@ import google
 #I would recommend commenting it out.
 
 print "Loading Google Data..."
-gDataGen=google.search("Andrew Garfield",stop=10) #This is a generator for the first 25 links of the google search "Andrew Garfield"
+gDataGen=google.search("Spiderman",stop=10) #This is a generator for the first 25 links of the google search "Andrew Garfield"
 gData=[] #List of all the links
 for link in gDataGen: #This step takes a while (Mr.Z said this is normal)
     gData.append(google.get_page(link))
@@ -19,7 +19,6 @@ for link in gDataGen: #This step takes a while (Mr.Z said this is normal)
 #print gData[0]
 
 #End of google material
-
 
 #BeautifulSoup stuff
 
@@ -43,13 +42,16 @@ def soupify(webtext):
 #End of BeautifulSoup stuff
 
 
-data = open("aroundworldin80days.txt", 'r')
-text = data.read()
-data.close()
+#data = open("aroundworldin80days.txt", 'r')
+#text = data.read()
+#data.close()
 
-dict_f = open("dictionary.txt",'r')
-dictionary =  dict_f.read()
-dict_f.close()
+
+#Find name stuff
+def findName(data):
+    dict_f = open("dictionary.txt",'r')
+    dictionary =  dict_f.read()
+    dict_f.close()
 
 match_twoNames = re.findall(r'([A-Z][a-z]+ [A-Z][a-z]+)', text)
 match_titles = re.findall(r'([A-Z][a-z]+\. [A-Z][a-z]*)', text)
@@ -57,6 +59,8 @@ match_dates_md = re.findall(r'([A-Z][a-z]+ [1-2][0-9])', text)
 match_dates_md.append(re.findall(r'([A-Z][a-z]+ 0[1-9])', text))
 match_dates_mdy = re.findall(r'(A-Z][a-z]+ [1-2][0-9], [0-9]*)', text)
 match_dates_mdy.append(re.findall(r'([A-Z][a-z]+ 0[1-9], [0-9]*)', text))
+match_twoNames = re.findall(r'([A-Z][a-z]+ [A-Z][a-z]+)', data)#text)
+match_titles = re.findall(r'([A-Z][a-z]+\. [A-Z][a-z]*)', data)#text)
 
 places = ['College', 'University', 'Institution', 'City', 'Library','Park','Street','Island','Creek','Railroad','Islands','Territory','Valley','House','River','Mountain','Mountains','Railway','Yard','Fort','Peak','Hotel','Lake', 'Camp', 'Row', 'New', 'Gate']
 
@@ -64,11 +68,18 @@ starting_words = ['But', 'On', 'From', 'Then', 'Down', 'To', 'A', 'An', 'The', '
 ##print match_twoNames
 ##print match_titles
 
+
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 names = []
 names_final= []
 dates = []
+csv_first = csv.reader(open("firstnames.csv","rU"),dialect=csv.excel_tab)
+#first_names_file = open("firstnames.csv")
+#csv_first = csv.reader(first_names_file) 
+names = []
+names_final= []
+
 csv_first = csv.reader(open("firstnames.csv","rU"),dialect=csv.excel_tab)
 #first_names_file = open("firstnames.csv")
 #csv_first = csv.reader(first_names_file) 
@@ -81,19 +92,22 @@ first_names_list = []
 last_names_list = []
 all_names_list = []
 
-for row in csv_first: 
+for row in csv_first:
     first_names_list.append(row[0])
-for row in csv_last: 
-    last_names_list.append(row[0])
+    for row in csv_last: 
+        last_names_list.append(row[0])
+        
+    all_names_list = first_names_list + last_names_list
 
-all_names_list = first_names_list + last_names_list
-
-
+    
 for name in match_twoNames:
-    names.append(name)
+names.append(name)
 for name in match_titles:
     names.append(name)
+    counter = 0
 for name in names:
+    if counter > 10:
+        break
     to_add = True
     first_name = name[:(name.find(' '))]
     last_name = name[(name.find(' ')) + 1:]
@@ -106,6 +120,9 @@ for name in names:
         to_add = False
     elif first_name not in first_names_list and first_name not in last_names_list and name not in match_titles:
         if first_name_l in dictionary: # first name isnt common and IS in dictionary
+            #names.remove(name)
+            to_add=False
+        elif first_name_l in dictionary and last_name_l in dictionary and (first_name not in first_names_list or last_name not in last_names_list): 
             #names.remove(name)
             to_add=False
     elif first_name_l in dictionary and last_name_l in dictionary and (first_name not in first_names_list or last_name not in last_names_list): 
@@ -135,3 +152,25 @@ for date in dates:
 #print dates_final
 
 #print names_final
+to_add = False
+else: 
+    if to_add == True and names_final.count(name)<1: 
+    names_final.append(name)
+    counter = counter + 1
+
+    #for name in names: 
+    #   if names_final.count(name)<1: 
+    #      names_final.append(name)
+    #
+    return names_final
+
+#print findName(soupify(gData[0]))
+def most_common(lst):
+    return max(set(lst), key=lst.count)
+
+masterlist = []
+for text in gData:
+    for each in findName(soupify(text)):
+        masterlist.append(each)
+
+print most_common(masterlist)
