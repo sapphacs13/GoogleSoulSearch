@@ -23,15 +23,24 @@ for link in gDataGen: #This step takes a while (Mr.Z said this is normal)
 
 #BeautifulSoup stuff
 
-soup = BeautifulSoup(gData[0])
-scraped = soup.get_text()
+#test
+#soup = BeautifulSoup(gData[0])
+#scraped = soup.get_text()
 
-print scraped.encode('utf-8')
+#print scraped.encode('utf-8')
 #temp = open("test2.txt",'w')
 #temp.write(scraped.encode('utf-8'))
 #temp.close()
 
+#returns scraped text
+def soupify(webtext):
+    soup = BeautifulSoup(webtext)
+    scraped = soup.get_text()
+    return scraped.encode('utf-8')
 
+#print soupify(gData[0])
+
+#End of BeautifulSoup stuff
 
 
 data = open("aroundworldin80days.txt", 'r')
