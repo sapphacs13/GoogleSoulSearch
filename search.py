@@ -9,7 +9,7 @@ import google
 #I would recommend commenting it out.
 
 print "Loading Google Data..."
-gDataGen=google.search("Spiderman",stop=10) #This is a generator for the first 25 links of the google search "Andrew Garfield"
+gDataGen=google.search("New Year",stop=10) #This is a generator for the first 25 links of the google search "Andrew Garfield"
 gData=[] #List of all the links
 for link in gDataGen: #This step takes a while (Mr.Z said this is normal)
     gData.append(google.get_page(link))
@@ -55,10 +55,6 @@ def findName(text):
     
     match_twoNames = re.findall(r'([A-Z][a-z]+ [A-Z][a-z]+)', text)
     match_titles = re.findall(r'([A-Z][a-z]+\. [A-Z][a-z]*)', text)
-    match_dates_md = re.findall(r'([A-Z][a-z]+ [1-2][0-9])', text)
-    match_dates_md.append(re.findall(r'([A-Z][a-z]+ 0[1-9])', text))
-    match_dates_mdy = re.findall(r'(A-Z][a-z]+ [1-2][0-9], [0-9]*)', text)
-    match_dates_mdy.append(re.findall(r'([A-Z][a-z]+ 0[1-9], [0-9]*)', text))
 
     
     places = ['College', 'University', 'Institution', 'City', 'Library','Park','Street','Island','Creek','Railroad','Islands','Territory','Valley','House','River','Mountain','Mountains','Railway','Yard','Fort','Peak','Hotel','Lake', 'Camp', 'Row', 'New', 'Gate']
@@ -139,18 +135,18 @@ def findName(text):
 def most_common(lst):
     return max(set(lst), key=lst.count)
 
-masterlist = []
-for text in gData:
-    for each in findName(soupify(text)):
-        masterlist.append(each)
-
-print most_common(masterlist)
 
 #find time stuff
-def findDate(fil):
-    opened = open(fil, 'r')
-    text = fil.read()
-    opened.close()
+def findDate(text):
+
+    match_dates_md = re.findall(r'([A-Z][a-z]+ [1-2][0-9])', text)
+    match_dates_md.append(re.findall(r'([A-Z][a-z]+ 0[1-9])', text))
+    match_dates_mdy = re.findall(r'(A-Z][a-z]+ [1-2][0-9], [0-9]*)', text)
+    match_dates_mdy.append(re.findall(r'([A-Z][a-z]+ 0[1-9], [0-9]*)', text))
+
+    #opened = open(fil, 'r')
+    #text = fil.read()
+    #opened.close()
     months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     dates = []
     to_add = True
@@ -173,5 +169,18 @@ def findDate(fil):
     return dates_final
     #print dates_final
 #print findDate(textnames)
+
+
+masterlist = []
+#for text in gData:
+#    for each in findName(soupify(text)):
+#        masterlist.append(each)
+
+for text in gData:
+    for each in findDate(soupify(text)):
+        masterlist.append(each)
+
+print most_common(masterlist)
+
 
 
