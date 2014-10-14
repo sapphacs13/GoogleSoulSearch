@@ -23,16 +23,13 @@ def findDate(text):
         dates.append(date)
     for date in match_dates_mdy:
         dates.append(date)
-    dates.remove([])
-    dates.remove([])
     for date in dates:
-        #print date
-        date_month = date[:date.find(' ')]
+      #  date_month = date[:date.find(' ')]
         #print date_month
-        if date_month not in months:
-            to_add = False
-        if to_add == True:
-            dates_final.append(date)
+       # if date_month not in months:
+       #     to_add = False
+       # if to_add == True:
+        dates_final.append(date)
     return dates_final
 
 def findName(text):
