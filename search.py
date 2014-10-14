@@ -47,6 +47,9 @@ def findName(data):
     opened = open(data, 'r')
     text = opened.read()
     opened.close()
+    #opened = open(data, 'r')
+    #text = data.read()
+    #data.close()
     dict_f = open("dictionary.txt",'r')
     dictionary =  dict_f.read()
     dict_f.close()
@@ -99,7 +102,7 @@ def findName(data):
         names.append(name)
     for name in match_titles:
         names.append(name)
-        counter = 0
+    counter = 0
     for name in names:
         if counter > 10:
             break
@@ -140,7 +143,7 @@ def findName(data):
 
     
 print findName("textnames")
-
+#print findName("aroundtheworldin80days.txt")
 
 #print findName(soupify(gData[0]))
 def most_common(lst):
