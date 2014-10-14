@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup 
+from bs4 import BeautifulSoup
 import re
 import csv
 import google
@@ -53,6 +53,10 @@ dict_f.close()
 
 match_twoNames = re.findall(r'([A-Z][a-z]+ [A-Z][a-z]+)', text)
 match_titles = re.findall(r'([A-Z][a-z]+\. [A-Z][a-z]*)', text)
+match_dates_md = re.findall(r'([A-Z][a-z]+ [1-2][0-9])', text)
+match_dates_md.append(re.findall(r'([A-Z][a-z]+ 0[1-9])', text))
+match_dates_mdy = re.findall(r'(A-Z][a-z]+ [1-2][0-9], [0-9]*)', text)
+match_dates_mdy.append(re.findall(r'([A-Z][a-z]+ 0[1-9], [0-9]*)', text))
 
 places = ['College', 'University', 'Institution', 'City', 'Library','Park','Street','Island','Creek','Railroad','Islands','Territory','Valley','House','River','Mountain','Mountains','Railway','Yard','Fort','Peak','Hotel','Lake', 'Camp', 'Row', 'New', 'Gate']
 
@@ -60,9 +64,11 @@ starting_words = ['But', 'On', 'From', 'Then', 'Down', 'To', 'A', 'An', 'The', '
 ##print match_twoNames
 ##print match_titles
 
+months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
 names = []
 names_final= []
-
+dates = []
 csv_first = csv.reader(open("firstnames.csv","rU"),dialect=csv.excel_tab)
 #first_names_file = open("firstnames.csv")
 #csv_first = csv.reader(first_names_file) 
@@ -108,8 +114,24 @@ for name in names:
     else: 
         if to_add == True and names_final.count(name)<1: 
             names_final.append(name)
+            
+to_add = True
+dates_final = []
+for date in match_dates_md:
+    dates.append(date)
+for date in match_dates_mdy:
+    dates.append(date)
+dates.remove([])
+dates.remove([])
+for date in dates:
+    #print date
+    date_month = date[:date.find(' ')]
+    #print date_month
+    if date_month not in months:
+        to_add = False
+    if to_add == True:
+        dates_final.append(date)
 
-#for name in names: 
- #   if names_final.count(name)<1: 
-  #      names_final.append(name)
+#print dates_final
+
 #print names_final
